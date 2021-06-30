@@ -1,8 +1,8 @@
 # bCLEARer
 
-bCLEARer is a reference library containing utility functions that are being used by other projects within the bCLEARer process - see links below.
+bCLEARer is a reference library containing utility functions that are being used by other projects within the [bCLEARer process](https://borosolutions.net/bclearer-approach) developed by [BORO Solutions](https://borosolutions.net/) - see links below.
 
-**This project is currently closed, but can be sporadically updated by the BORO Development Team it in the future.**
+**This project is currently closed, but may be sporadically updated by the BORO Development Team in the future.**
 
 ## Execution
 
@@ -12,7 +12,7 @@ bCLEARer is a reference library containing utility functions that are being used
 
 For examples see usages in the following projects:
 
-* https://github.com/boro-alpha/bclearer_boson_1.git
+* https://github.com/boro-alpha/bclearer_boson_1_1.git
 
 ## Documentation
 
