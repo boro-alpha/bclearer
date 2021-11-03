@@ -39,6 +39,8 @@ def get_attributes_to_convert(
                 source_universe_collection_dictionary=adjustment_collection_dictionary,
                 mapped_universe_collection_dictionary=content_collection_dictionary))
 
+    # TODO: Find out why the NamedPlace object has BoroDefaultNullValue as attribute type nf_uuid for GeographicalName
+    #  in the source data (attribute value: 'name') - and report it
     attribute_conversion_table[NfEaComColumnTypes.ELEMENT_COMPONENTS_CLASSIFYING_EA_CLASSIFIER.column_name] = \
         adjustment_universe_ea_attributes_table[
             NfEaComColumnTypes.ELEMENT_COMPONENTS_CLASSIFYING_EA_CLASSIFIER.column_name].apply(

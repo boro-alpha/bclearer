@@ -14,6 +14,7 @@ class ConventionShiftOperationTypes(
     SEPARATE_BESPOKE_NAMES_AND_INSTANCES = auto()
     SEPARATE_STANDARD_INSTANCES_AND_EXEMPLARS = auto()
     SEPARATE_BESPOKE_INSTANCES_AND_EXEMPLARS = auto()
+    UNIVERSE_TO_SEMANTICALLY_GROUNDED_DIGITALISATION_LEVEL = auto()
 
     def __operation_name(
             self) \
@@ -38,5 +39,6 @@ operation_name_mapping = \
         ConventionShiftOperationTypes.SEPARATE_STANDARD_NAMES_AND_INSTANCES: 'separate_standard_names_and_instances',
         ConventionShiftOperationTypes.SEPARATE_BESPOKE_NAMES_AND_INSTANCES: 'separate_bespoke_names_and_instances',
         ConventionShiftOperationTypes.SEPARATE_STANDARD_INSTANCES_AND_EXEMPLARS: 'separate_standard_instances_and_exemplars',
-        ConventionShiftOperationTypes.SEPARATE_BESPOKE_INSTANCES_AND_EXEMPLARS: 'separate_bespoke_instances_and_exemplars'
+        ConventionShiftOperationTypes.SEPARATE_BESPOKE_INSTANCES_AND_EXEMPLARS: 'separate_bespoke_instances_and_exemplars',
+        ConventionShiftOperationTypes.UNIVERSE_TO_SEMANTICALLY_GROUNDED_DIGITALISATION_LEVEL: 'shift_universe_to_semantically_grounded'
     }

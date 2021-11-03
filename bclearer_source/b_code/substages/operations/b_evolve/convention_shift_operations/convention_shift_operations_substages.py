@@ -1,6 +1,8 @@
 from bclearer_source.b_code.common_knowledge.convention_shift_operation_types import ConventionShiftOperationTypes
 from bclearer_source.b_code.configurations.convention_shift_operation_configurations import ConventionShiftOperationConfigurations
 from bclearer_source.b_code.substages.operations.b_evolve.convention_shift_operations.convention_shifters.attribute_names_to_name_objects_convention_shifter import shift_convention_attribute_names_to_name_objects
+from bclearer_source.b_code.substages.operations.b_evolve.convention_shift_operations.convention_shifters.digitalisation_levels.universe_to_semantically_grounded_convention_shifter import \
+    shift_convention_universe_to_semantically_grounded
 from bclearer_source.b_code.substages.operations.b_evolve.convention_shift_operations.convention_shifters.generalise_names.generalise_names_convention_shifter import shift_convention_generalise_names
 from bclearer_source.b_code.substages.operations.b_evolve.convention_shift_operations.convention_shifters.objects_to_classes_convention_shifter import shift_convention_objects_to_classes
 from bclearer_source.b_code.substages.operations.b_evolve.convention_shift_operations.convention_shifters.separate_instances_and_exemplars.separate_bespoke_instances_and_exemplars_convention_shifter import shift_convention_separate_bespoke_instances_and_exemplars
@@ -96,6 +98,11 @@ class ConventionShiftOperationsSubstages:
                 list_of_configuration_objects=self.convention_shift_operation_configuration.list_of_configuration_objects,
                 output_universe=output_universe,
                 package_name=self.convention_shift_operation_configuration.package_name)
+
+        elif self.convention_shift_operation_configuration.operation_type == ConventionShiftOperationTypes.UNIVERSE_TO_SEMANTICALLY_GROUNDED_DIGITALISATION_LEVEL:
+            shift_convention_universe_to_semantically_grounded(
+                content_universe=self.content_universe,
+                output_universe=output_universe)
 
         else:
             raise \

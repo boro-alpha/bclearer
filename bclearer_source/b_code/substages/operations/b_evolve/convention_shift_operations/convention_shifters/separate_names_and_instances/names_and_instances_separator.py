@@ -1,4 +1,6 @@
 from bclearer_source.b_code.common_knowledge.bclearer_matched_ea_objects import BclearerMatchedEaObjects
+from bclearer_source.b_code.common_knowledge.digitialisation_level_stereotype_matched_ea_objects import \
+    DigitalisationLevelStereotypeMatchedEaObjects
 from bclearer_source.b_code.common_knowledge.matched_objects import MatchedEaObjects
 from bclearer_source.b_code.common_knowledge.bclearer_additional_column_types import BclearerAdditionalColumnTypes
 from bclearer_source.b_code.substages.operations.b_evolve.convention_shift_operations.convention_shifters.separate_names_and_instances.ea_attribute_remover import remove_ea_attributes
@@ -44,6 +46,12 @@ def separate_names_and_instances(
         matched_naming_space_type=matched_naming_space_type,
         name_instance_attribute_name=name_instance_attribute_name)
 
+    digitalisation_level_stereotype_nf_uuid = \
+        get_nf_uuid_from_ea_guid_from_collection(
+            nf_ea_com_universe=nf_ea_com_universe,
+            collection_type=NfEaComCollectionTypes.EA_STEREOTYPES,
+            ea_guid=DigitalisationLevelStereotypeMatchedEaObjects.DIGITALISATION_LEVEL_1_CLASS_STEREOTYPE.ea_guid)
+
     for naming_space_instance_nf_uuid in naming_space_instances:
         __separate_name_instances(
             nf_ea_com_universe=nf_ea_com_universe,
@@ -51,7 +59,8 @@ def separate_names_and_instances(
             naming_space_instance_nf_uuid=naming_space_instance_nf_uuid,
             name_instance_attribute_name=name_instance_attribute_name,
             new_ea_objects_dictionary=new_ea_objects_dictionary,
-            package_nf_uuid=package_nf_uuid)
+            package_nf_uuid=package_nf_uuid,
+            digitalisation_level_stereotype_nf_uuid=digitalisation_level_stereotype_nf_uuid)
 
     update_nf_ea_com_universe_with_dictionary(
         nf_ea_com_universe=nf_ea_com_universe,
@@ -65,14 +74,16 @@ def __separate_name_instances(
         naming_space_instance_nf_uuid: str,
         name_instance_attribute_name: str,
         new_ea_objects_dictionary: dict,
-        package_nf_uuid: str):
+        package_nf_uuid: str,
+        digitalisation_level_stereotype_nf_uuid: str):
     name_instance_type_nf_uuid = \
         create_name_instance_type(
             nf_ea_com_universe=nf_ea_com_universe,
             new_ea_objects_dictionary=new_ea_objects_dictionary,
             package_nf_uuid=package_nf_uuid,
             name_object_name=name_instance_attribute_name,
-            naming_space_nf_uuid=naming_space_instance_nf_uuid)
+            naming_space_nf_uuid=naming_space_instance_nf_uuid,
+            digitalisation_level_stereotype_nf_uuid=digitalisation_level_stereotype_nf_uuid)
 
     name_types_instances_stereotype_nf_uuid = \
         get_nf_uuid_from_ea_guid_from_collection(
@@ -93,7 +104,8 @@ def __separate_name_instances(
             package_nf_uuid=package_nf_uuid,
             ea_attribute_tuple=ea_attribute_tuple,
             name_instance_type_nf_uuid=name_instance_type_nf_uuid,
-            name_types_instances_stereotype_nf_uuid=name_types_instances_stereotype_nf_uuid)
+            name_types_instances_stereotype_nf_uuid=name_types_instances_stereotype_nf_uuid,
+            digitalisation_level_stereotype_nf_uuid=digitalisation_level_stereotype_nf_uuid)
 
     remove_ea_attributes(
         nf_ea_com_universe=nf_ea_com_universe,

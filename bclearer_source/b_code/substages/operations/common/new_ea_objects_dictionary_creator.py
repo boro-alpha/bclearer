@@ -10,6 +10,7 @@ def create_new_ea_objects_dictionary() \
             NfEaComCollectionTypes.EA_PACKAGES: dict(),
             NfEaComCollectionTypes.EA_ATTRIBUTES: dict(),
             NfEaComCollectionTypes.STEREOTYPE_USAGE: dict(),
+            NfEaComCollectionTypes.EA_STEREOTYPES: dict(),
         }
 
     return \

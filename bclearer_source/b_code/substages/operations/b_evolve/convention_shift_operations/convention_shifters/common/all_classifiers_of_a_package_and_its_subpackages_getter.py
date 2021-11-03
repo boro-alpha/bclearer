@@ -7,6 +7,7 @@ from nf_ea_common_tools_source.b_code.nf_ea_common.common_knowledge.ea_element_t
 from pandas import DataFrame
 
 
+# TODO: Use nf ea com table ..._ea_full_packages for this, rather than using recursion
 def get_all_package_and_subpackages_classifiers(
         content_universe: NfEaComUniverses,
         package_ea_guid: str) \
@@ -59,6 +60,10 @@ def get_all_package_and_subpackages_classifiers(
     domain_classes_classifiers_table = \
         domain_objects_classifiers_table[
             domain_objects_classifiers_table[ea_object_type_column_name] == EaElementTypes.CLASS.type_name]
+
+    # TODO: Track the export to EA to check where and why the EA GUIDs are being deleted/changed
+    # TODO: Reformat instrument_and_visualize to export to EA without deleting/changing the EA GUIDs
+    #  - look at AMis test "csv assemblies"
 
     return \
         domain_classes_classifiers_table

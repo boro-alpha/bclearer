@@ -15,7 +15,8 @@ def create_name_instance(
         package_nf_uuid: str,
         ea_attribute_tuple: tuple,
         name_instance_type_nf_uuid: str,
-        name_types_instances_stereotype_nf_uuid: str):
+        name_types_instances_stereotype_nf_uuid: str,
+        digitalisation_level_stereotype_nf_uuid: str):
     attributed_object_nf_uuid = \
         get_tuple_attribute_value_if_required(
             owning_tuple=ea_attribute_tuple,
@@ -34,6 +35,12 @@ def create_name_instance(
             new_classifier_dictionary=new_ea_objects_dictionary[NfEaComCollectionTypes.EA_CLASSIFIERS],
             package_nf_uuid=package_nf_uuid,
             class_name=name_instance_name)
+
+    add_new_stereotype_usage_to_dictionary(
+        new_stereotype_usage_dictionary=new_ea_objects_dictionary[NfEaComCollectionTypes.STEREOTYPE_USAGE],
+        client_nf_uuid=name_instance_nf_uuid,
+        client_collection_type=NfEaComCollectionTypes.EA_CLASSIFIERS,
+        stereotype_nf_uuid=digitalisation_level_stereotype_nf_uuid)
 
     add_new_connector_to_dictionary(
         new_connector_dictionary=new_ea_objects_dictionary[NfEaComCollectionTypes.EA_CONNECTORS],

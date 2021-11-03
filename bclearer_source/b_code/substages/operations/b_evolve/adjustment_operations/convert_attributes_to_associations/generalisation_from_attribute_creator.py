@@ -7,33 +7,33 @@ from nf_ea_common_tools_source.b_code.nf_ea_common.common_knowledge.ea_connector
 from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.common_knowledge.column_types.nf_ea_com_column_types import NfEaComColumnTypes
 
 
-def create_dependency_from_attribute(
+def create_generalisation_from_attribute_to_type(
         attribute_to_convert_tuple: tuple,
         type_nf_uuid: str) \
         -> dict:
-    dependency_nf_uuid = \
+    generalisation_nf_uuid = \
         create_new_uuid()
 
-    dependency_ea_guid = \
+    generalisation_ea_guid = \
         create_ea_guid_from_nf_uuid(
-            nf_uuid=dependency_nf_uuid)
+            nf_uuid=generalisation_nf_uuid)
 
-    dependency_supplier_nf_uuid = \
+    generalisation_supplier_nf_uuid = \
         type_nf_uuid
 
-    dependency_client_nf_uuid = \
+    generalisation_client_nf_uuid = \
         get_tuple_attribute_value_if_required(
             owning_tuple=attribute_to_convert_tuple,
             attribute_name=NfEaComColumnTypes.ELEMENT_COMPONENTS_CLASSIFYING_EA_CLASSIFIER.column_name)
 
-    ea_dependency_dictionary = \
+    ea_generalisation_dictionary = \
         {
-            NfEaComColumnTypes.EXPLICIT_OBJECTS_EA_GUID.column_name: dependency_ea_guid,
-            NfColumnTypes.NF_UUIDS.column_name: dependency_nf_uuid,
-            NfEaComColumnTypes.ELEMENTS_SUPPLIER_PLACE1_END_CONNECTORS.column_name: dependency_supplier_nf_uuid,
-            NfEaComColumnTypes.ELEMENTS_CLIENT_PLACE2_END_CONNECTORS.column_name: dependency_client_nf_uuid,
+            NfEaComColumnTypes.EXPLICIT_OBJECTS_EA_GUID.column_name: generalisation_ea_guid,
+            NfColumnTypes.NF_UUIDS.column_name: generalisation_nf_uuid,
+            NfEaComColumnTypes.ELEMENTS_SUPPLIER_PLACE1_END_CONNECTORS.column_name: generalisation_supplier_nf_uuid,
+            NfEaComColumnTypes.ELEMENTS_CLIENT_PLACE2_END_CONNECTORS.column_name: generalisation_client_nf_uuid,
             NfEaComColumnTypes.CONNECTORS_DIRECTION_TYPE_NAME.column_name: 'Source -> Destination',
-            NfEaComColumnTypes.CONNECTORS_ELEMENT_TYPE_NAME.column_name: EaConnectorTypes.DEPENDENCY.type_name,
+            NfEaComColumnTypes.CONNECTORS_ELEMENT_TYPE_NAME.column_name: EaConnectorTypes.GENERALIZATION.type_name,
             NfEaComColumnTypes.CONNECTORS_SOURCE_CARDINALITY.column_name: DEFAULT_NULL_VALUE,
             NfEaComColumnTypes.CONNECTORS_DEST_CARDINALITY.column_name: DEFAULT_NULL_VALUE,
             NfEaComColumnTypes.STEREOTYPEABLE_OBJECTS_EA_OBJECT_STEREOTYPES.column_name: [],
@@ -43,4 +43,4 @@ def create_dependency_from_attribute(
         }
 
     return \
-        ea_dependency_dictionary
+        ea_generalisation_dictionary

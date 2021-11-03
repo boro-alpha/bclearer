@@ -5,7 +5,7 @@ from enum import auto
 
 @unique
 class BclearerMatchedEaObjects(
-    MatchedEaObjects):
+        MatchedEaObjects):
     BCLEARER_FOUNDATION_COMMON_RESERVED_NAMES = \
         auto()
 

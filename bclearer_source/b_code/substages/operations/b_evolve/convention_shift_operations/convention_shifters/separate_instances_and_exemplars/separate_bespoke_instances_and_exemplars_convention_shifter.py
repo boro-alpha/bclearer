@@ -1,3 +1,8 @@
+from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.common_knowledge.collection_types.nf_ea_com_collection_types import \
+    NfEaComCollectionTypes
+
+from bclearer_source.b_code.common_knowledge.digitialisation_level_stereotype_matched_ea_objects import \
+    DigitalisationLevelStereotypeMatchedEaObjects
 from bclearer_source.b_code.configurations.bespoke_instance_to_exemplar_configuration_objects import BespokeInstanceToExemplarConfigurationObjects
 from bclearer_source.b_code.substages.operations.b_evolve.common.new_root_package_creator import create_root_package
 from bclearer_source.b_code.substages.operations.b_evolve.convention_shift_operations.convention_shifters.separate_instances_and_exemplars.instances_and_exemplars_separator import separate_instances_and_exemplars
@@ -9,6 +14,9 @@ from nf_ea_common_tools_source.b_code.nf_ea_common.common_knowledge.ea_connector
 from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.common_knowledge.column_types.nf_ea_com_column_types import NfEaComColumnTypes
 from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.nf_ea_com_universes import NfEaComUniverses
 from pandas import DataFrame
+
+from bclearer_source.b_code.substages.operations.common.nf_uuid_from_ea_guid_from_collection_getter import \
+    get_nf_uuid_from_ea_guid_from_collection
 
 
 def shift_convention_separate_bespoke_instances_and_exemplars(
@@ -53,13 +61,20 @@ def __separate_instances_and_exemplars(
             nf_ea_com_universe=nf_ea_com_universe,
             matched_type=configuration_object.matched_name_instance_instance)
 
+    digitalisation_level_stereotype_nf_uuid = \
+        get_nf_uuid_from_ea_guid_from_collection(
+            nf_ea_com_universe=nf_ea_com_universe,
+            collection_type=NfEaComCollectionTypes.EA_STEREOTYPES,
+            ea_guid=DigitalisationLevelStereotypeMatchedEaObjects.DIGITALISATION_LEVEL_1_CLASS_STEREOTYPE.ea_guid)
+
     for name_instance_instance_nf_uuid in name_instance_instances:
         __separate_name_exemplars(
             nf_ea_com_universe=nf_ea_com_universe,
             name_instance_instance_nf_uuid=name_instance_instance_nf_uuid,
             name_exemplar_attribute_name=configuration_object.name_exemplar_attribute_name,
             new_ea_objects_dictionary=new_ea_objects_dictionary,
-            package_nf_uuid=package_nf_uuid)
+            package_nf_uuid=package_nf_uuid,
+            digitalisation_level_stereotype_nf_uuid=digitalisation_level_stereotype_nf_uuid)
 
     update_nf_ea_com_universe_with_dictionary(
         nf_ea_com_universe=nf_ea_com_universe,
@@ -71,7 +86,8 @@ def __separate_name_exemplars(
         name_instance_instance_nf_uuid: str,
         name_exemplar_attribute_name: str,
         new_ea_objects_dictionary: dict,
-        package_nf_uuid: str):
+        package_nf_uuid: str,
+        digitalisation_level_stereotype_nf_uuid: str):
     ea_attributes = \
         __get_name_exemplar_attributes(
             nf_ea_com_universe=nf_ea_com_universe,
@@ -83,7 +99,8 @@ def __separate_name_exemplars(
         name_instance_type_nf_uuid=name_instance_instance_nf_uuid,
         ea_attributes=ea_attributes,
         new_ea_objects_dictionary=new_ea_objects_dictionary,
-        package_nf_uuid=package_nf_uuid)
+        package_nf_uuid=package_nf_uuid,
+        digitalisation_level_stereotype_nf_uuid=digitalisation_level_stereotype_nf_uuid)
 
 
 def __get_name_exemplar_attributes(

@@ -1,4 +1,4 @@
 setuptools
 git+https://github.com/boro-alpha/nf_common.git
-git+https://github.com/boro-alpha/nf_ea_common_tools.git==0.1.0-alpha.1
+git+https://github.com/boro-alpha/nf_ea_common_tools.git==0.1.0-alpha.2
 pandas

@@ -1,3 +1,5 @@
+from bclearer_source.b_code.common_knowledge.attribute_to_associations_operation_subtypes import \
+    AttributeToAssociationOperationSubtypes
 from bclearer_source.b_code.substages.operations.b_evolve.adjustment_operations.convert_attributes_to_associations.attributes_converter import convert_attributes
 from bclearer_source.b_code.substages.operations.b_evolve.adjustment_operations.convert_attributes_to_associations.attributes_to_convert_getter import get_attributes_to_convert
 from bclearer_source.b_code.substages.operations.b_evolve.adjustment_operations.remove_attributes.attribute_remover import remove_attributes
@@ -12,7 +14,8 @@ def convert_attributes_to_associations(
         adjustment_universe: NfEaComUniverses,
         output_universe: NfEaComUniverses,
         direction: EaAssociationDirectionTypes,
-        package_name: str) \
+        package_name: str,
+        attribute_to_association_operation_subtype: AttributeToAssociationOperationSubtypes) \
         -> None:
     __run_input_checks()
 
@@ -21,7 +24,8 @@ def convert_attributes_to_associations(
         adjustment_universe=adjustment_universe,
         output_universe=output_universe,
         direction=direction,
-        package_name=package_name)
+        package_name=package_name,
+        attribute_to_association_operation_subtype=attribute_to_association_operation_subtype)
 
 
 def __run_input_checks():
@@ -33,7 +37,8 @@ def __run_operation(
         adjustment_universe: NfEaComUniverses,
         output_universe: NfEaComUniverses,
         direction: EaAssociationDirectionTypes,
-        package_name: str):
+        package_name: str,
+        attribute_to_association_operation_subtype: AttributeToAssociationOperationSubtypes):
     log_message(
         message='ADJUSTMENT OPERATION: Convert attributes - started')
 
@@ -55,7 +60,8 @@ def __run_operation(
         output_universe=output_universe,
         attributes_to_convert=attributes_to_convert,
         direction=direction,
-        package_nf_uuid=package_nf_uuid)
+        package_nf_uuid=package_nf_uuid,
+        attribute_to_association_operation_subtype=attribute_to_association_operation_subtype)
 
     log_message(
         message='ADJUSTMENT OPERATION: Convert attributes - removing converted attributes')

@@ -18,7 +18,8 @@ def separate_instances_and_exemplars(
         name_instance_type_nf_uuid: str,
         ea_attributes: DataFrame,
         new_ea_objects_dictionary: dict,
-        package_nf_uuid: str):
+        package_nf_uuid: str,
+        digitalisation_level_stereotype_nf_uuid: str):
     ea_classifiers = \
         nf_ea_com_universe.nf_ea_com_registry.get_ea_classifiers()
 
@@ -44,6 +45,12 @@ def separate_instances_and_exemplars(
             name_exemplar_type_name=name_exemplar_type_name,
             name_instance_type_nf_uuid=name_instance_type_nf_uuid)
 
+    add_new_stereotype_usage_to_dictionary(
+        new_stereotype_usage_dictionary=new_ea_objects_dictionary[NfEaComCollectionTypes.STEREOTYPE_USAGE],
+        client_nf_uuid=name_exemplar_type_nf_uuid,
+        client_collection_type=NfEaComCollectionTypes.EA_CLASSIFIERS,
+        stereotype_nf_uuid=digitalisation_level_stereotype_nf_uuid)
+
     exemplified_by_stereotype_nf_uuid = \
         get_nf_uuid_from_ea_guid_from_collection(
             nf_ea_com_universe=nf_ea_com_universe,
@@ -63,7 +70,8 @@ def separate_instances_and_exemplars(
             ea_attribute_tuple=ea_attribute_tuple,
             name_exemplar_type_nf_uuid=name_exemplar_type_nf_uuid,
             exemplified_by_stereotype_nf_uuid=exemplified_by_stereotype_nf_uuid,
-            name_exemplar_stereotype_nf_uuid=name_exemplar_stereotype_nf_uuid)
+            name_exemplar_stereotype_nf_uuid=name_exemplar_stereotype_nf_uuid,
+            digitalisation_level_stereotype_nf_uuid=digitalisation_level_stereotype_nf_uuid)
 
     remove_ea_attributes(
         nf_ea_com_universe=nf_ea_com_universe,
@@ -112,7 +120,8 @@ def __create_name_exemplar(
         ea_attribute_tuple: tuple,
         name_exemplar_type_nf_uuid: str,
         exemplified_by_stereotype_nf_uuid: str,
-        name_exemplar_stereotype_nf_uuid: str):
+        name_exemplar_stereotype_nf_uuid: str,
+        digitalisation_level_stereotype_nf_uuid: str):
     attributed_object_nf_uuid = \
         get_tuple_attribute_value_if_required(
             owning_tuple=ea_attribute_tuple,
@@ -128,6 +137,12 @@ def __create_name_exemplar(
             new_classifier_dictionary=new_ea_objects_dictionary[NfEaComCollectionTypes.EA_CLASSIFIERS],
             package_nf_uuid=package_nf_uuid,
             class_name=name_exemplar_name)
+
+    add_new_stereotype_usage_to_dictionary(
+        new_stereotype_usage_dictionary=new_ea_objects_dictionary[NfEaComCollectionTypes.STEREOTYPE_USAGE],
+        client_nf_uuid=name_exemplar_nf_uuid,
+        client_collection_type=NfEaComCollectionTypes.EA_CLASSIFIERS,
+        stereotype_nf_uuid=digitalisation_level_stereotype_nf_uuid)
 
     add_new_connector_to_dictionary(
         new_connector_dictionary=new_ea_objects_dictionary[NfEaComCollectionTypes.EA_CONNECTORS],

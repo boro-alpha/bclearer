@@ -1,7 +1,19 @@
 import csv
 import os
+
+from nf_common_source.code.nf.types.nf_column_types import NfColumnTypes
+from nf_common_source.code.services.dataframe_service.dataframe_helpers.dataframe_filter_and_renamer import \
+    dataframe_filter_and_rename
+from nf_common_source.code.services.dataframe_service.dataframe_mergers import left_merge_dataframes
 from nf_common_source.code.services.input_output_service.delimited_text.dataframe_dictionary_to_csv_files_writer import write_dataframe_dictionary_to_csv_files
+from nf_ea_common_tools_source.b_code.nf_ea_common.common_knowledge.column_types.nf_domains.standard_object_table_column_types import \
+    StandardObjectTableColumnTypes
+from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.common_knowledge.column_types.nf_ea_com_column_types import \
+    NfEaComColumnTypes
 from nf_ea_common_tools_source.b_code.services.general.nf_ea.domain_migration.nf_ea_com_to_domain_migration.processes.nf_ea_com_to_standard_tables_dictionary_converter import convert_nf_ea_com_to_standard_tables_dictionary
+
+from bclearer_source.b_code.common_knowledge.digitialisation_level_stereotype_matched_ea_objects import \
+    DigitalisationLevelStereotypeMatchedEaObjects
 from bclearer_source.b_code.configurations.run_configurations import RunConfigurations
 from nf_common_source.code.services.file_system_service.objects.files import Files
 from nf_common_source.code.services.log_environment_utility_service.common_knowledge.constants import NAME_VALUE_DELIMITER
@@ -13,12 +25,19 @@ from nf_ea_common_tools_source.b_code.nf_ea_common.common_knowledge.ea_element_t
 from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.common_knowledge.collection_types.nf_ea_com_collection_types import NfEaComCollectionTypes
 from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.nf_ea_com_universes import NfEaComUniverses
 
+from bclearer_source.b_code.substages.operations.common.nf_uuid_from_ea_guid_from_collection_getter import \
+    get_nf_uuid_from_ea_guid_from_collection
+
 
 @run_and_log_function
 def instrument_and_visualize(
         output_folder_name: str,
         visualization_substage_output_universe: NfEaComUniverses):
     __report_summary(
+        visualization_substage_output_universe=visualization_substage_output_universe,
+        output_folder_name=output_folder_name)
+
+    __report_digitalisation_levels_population(
         visualization_substage_output_universe=visualization_substage_output_universe,
         output_folder_name=output_folder_name)
 
@@ -101,6 +120,73 @@ def __report_summary(
 
         log_message(
             message=NAME_VALUE_DELIMITER.join(message_list))
+
+
+def __report_digitalisation_levels_population(
+        visualization_substage_output_universe: NfEaComUniverses,
+        output_folder_name: str) \
+        -> None:
+    output_universe_stereotype_usages = \
+        visualization_substage_output_universe.nf_ea_com_registry.dictionary_of_collections[
+            NfEaComCollectionTypes.STEREOTYPE_USAGE]
+
+    digitalisation_level_guids_set = \
+        DigitalisationLevelStereotypeMatchedEaObjects.get_ea_guids()
+
+    digitalisation_level_nf_uuids = \
+        list()
+
+    for digitalisation_level_guid in digitalisation_level_guids_set:
+        digitalisation_level_nf_uuids.append(
+            get_nf_uuid_from_ea_guid_from_collection(
+                nf_ea_com_universe=visualization_substage_output_universe,
+                collection_type=NfEaComCollectionTypes.EA_STEREOTYPES,
+                ea_guid=digitalisation_level_guid))
+
+    digitalisation_levels_stereotype_usages = \
+        output_universe_stereotype_usages[
+            output_universe_stereotype_usages['stereotype_nf_uuids'].isin(digitalisation_level_nf_uuids)]
+
+    digitalisation_levels_stereotype_usages_summary = \
+        digitalisation_levels_stereotype_usages.groupby(['stereotype_nf_uuids']).count()
+
+    digitalisation_levels_stereotype_usages_summary['stereotype_nf_uuids'] = \
+        digitalisation_levels_stereotype_usages_summary.index
+
+    digitalisation_levels_population_table = \
+        left_merge_dataframes(
+            master_dataframe=digitalisation_levels_stereotype_usages_summary,
+            master_dataframe_key_columns=['stereotype_nf_uuids'],
+            merge_suffixes=['1', '2'],
+            foreign_key_dataframe=visualization_substage_output_universe.get_ea_stereotypes(),
+            foreign_key_dataframe_fk_columns=[NfColumnTypes.NF_UUIDS.column_name],
+            foreign_key_dataframe_other_column_rename_dictionary={
+                'stereotype_nf_uuids': 'stereotype_nf_uuids',
+                NfEaComColumnTypes.EXPLICIT_OBJECTS_EA_OBJECT_NAME.column_name: 'digitalisation_level_names'})
+
+    digitalisation_levels_population_table = \
+        dataframe_filter_and_rename(
+            dataframe=digitalisation_levels_population_table,
+            filter_and_rename_dictionary={
+                'digitalisation_level_names': 'digitalisation_level_names',
+                StandardObjectTableColumnTypes.CLIENT_NF_UUIDS.column_name: 'number_of_objects'})
+
+    visualization_substage_folder_path = \
+        os.path.join(
+            output_folder_name,
+            visualization_substage_output_universe.ea_repository.short_name)
+
+    digitalisation_levels_population_file_full_path = \
+        os.path.join(
+            visualization_substage_folder_path,
+            visualization_substage_output_universe.ea_repository.short_name + '_digitalisation_levels_population.csv')
+
+    digitalisation_levels_population_table.to_csv(
+        path_or_buf=digitalisation_levels_population_file_full_path,
+        sep=',',
+        quotechar='"',
+        index=False,
+        quoting=csv.QUOTE_ALL)
 
 
 def __report_dependency_depth(

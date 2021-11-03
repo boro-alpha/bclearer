@@ -4,7 +4,7 @@ from enum import unique
 
 @unique
 class MatchedEaObjects(
-    Enum):
+        Enum):
     def __object_name(
             self) \
             -> str:

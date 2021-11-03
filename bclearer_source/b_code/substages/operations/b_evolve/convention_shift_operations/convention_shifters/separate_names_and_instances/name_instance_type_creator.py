@@ -1,10 +1,14 @@
+from nf_ea_common_tools_source.b_code.nf_ea_common.common_knowledge.ea_connector_types import EaConnectorTypes
+from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.common_knowledge.collection_types.nf_ea_com_collection_types import \
+    NfEaComCollectionTypes
+from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.nf_ea_com_universes import NfEaComUniverses
+
 from bclearer_source.b_code.common_knowledge.bclearer_matched_ea_objects import BclearerMatchedEaObjects
 from bclearer_source.b_code.substages.operations.common.class_adder import add_new_class_to_dictionary
 from bclearer_source.b_code.substages.operations.common.connector_adder import add_new_connector_to_dictionary
-from bclearer_source.b_code.substages.operations.common.nf_uuid_from_ea_guid_from_collection_getter import get_nf_uuid_from_ea_guid_from_collection
-from nf_ea_common_tools_source.b_code.nf_ea_common.common_knowledge.ea_connector_types import EaConnectorTypes
-from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.common_knowledge.collection_types.nf_ea_com_collection_types import NfEaComCollectionTypes
-from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.nf_ea_com_universes import NfEaComUniverses
+from bclearer_source.b_code.substages.operations.common.nf_uuid_from_ea_guid_from_collection_getter import \
+    get_nf_uuid_from_ea_guid_from_collection
+from bclearer_source.b_code.substages.operations.common.stereotype_adder import add_new_stereotype_usage_to_dictionary
 
 
 def create_name_instance_type(
@@ -12,13 +16,20 @@ def create_name_instance_type(
         new_ea_objects_dictionary: dict,
         package_nf_uuid: str,
         name_object_name: str,
-        naming_space_nf_uuid: str) \
+        naming_space_nf_uuid: str,
+        digitalisation_level_stereotype_nf_uuid: str) \
         -> str:
     name_instance_type_nf_uuid = \
         add_new_class_to_dictionary(
             new_classifier_dictionary=new_ea_objects_dictionary[NfEaComCollectionTypes.EA_CLASSIFIERS],
             package_nf_uuid=package_nf_uuid,
             class_name=name_object_name)
+
+    add_new_stereotype_usage_to_dictionary(
+        new_stereotype_usage_dictionary=new_ea_objects_dictionary[NfEaComCollectionTypes.STEREOTYPE_USAGE],
+        client_nf_uuid=name_instance_type_nf_uuid,
+        client_collection_type=NfEaComCollectionTypes.EA_CLASSIFIERS,
+        stereotype_nf_uuid=digitalisation_level_stereotype_nf_uuid)
 
     name_instances_nf_uuid = \
         get_nf_uuid_from_ea_guid_from_collection(

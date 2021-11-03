@@ -3,6 +3,7 @@ from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.common_knowledg
 from pandas import DataFrame
 
 
+# TODO: This method may no longer be needed once the caller uses table ea_full_packages
 def get_list_of_all_contained_packages_of_package(
         ea_packages_table: DataFrame,
         package_nf_uuid: str,

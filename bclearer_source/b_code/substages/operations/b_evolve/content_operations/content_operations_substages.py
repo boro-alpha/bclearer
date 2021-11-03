@@ -50,6 +50,7 @@ class ContentOperationsSubstages:
                 content_1_universe=self.content_1_universe,
                 content_2_universe=self.content_2_universe,
                 output_universe=output_universe,
+                default_digitalisation_level_stereotype=self.content_operation_configuration.default_digitalisation_level_stereotype,
                 context=self.__class__.__name__)
 
         return \

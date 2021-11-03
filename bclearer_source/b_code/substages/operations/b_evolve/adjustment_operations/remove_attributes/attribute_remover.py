@@ -37,6 +37,8 @@ def __run_operation(
             adjustment_universe=adjustment_universe,
             output_universe=output_universe)
 
+    # TODO: Report errors
+
     log_message(
         message='ADJUSTMENT OPERATION: Remove attributes - finished')
 

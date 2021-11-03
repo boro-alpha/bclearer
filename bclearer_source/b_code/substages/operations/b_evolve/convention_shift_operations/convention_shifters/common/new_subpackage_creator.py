@@ -113,6 +113,7 @@ def __add_new_package_row(
             object_name_column_name].to_string(index=False).strip()
 
     # Note: Pandas truncates long strings. The following instructions prevents pandas from doing that.
+    # TODO: Consider to move this option higher in the hierarchy
     set_option(
         'display.max_colwidth', None)
 

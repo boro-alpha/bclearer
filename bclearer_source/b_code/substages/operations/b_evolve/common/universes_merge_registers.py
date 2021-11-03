@@ -32,6 +32,7 @@ class UniversesMergeRegisters:
     def __classify_universes(
             universe_1: NfEaComUniverses,
             universe_2: NfEaComUniverses):
+        # TODO This may be calculated on the size of universes if needed
         primary_universe = \
             universe_1
 

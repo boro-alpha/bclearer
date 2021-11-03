@@ -11,7 +11,8 @@ from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.common_knowledg
 def create_association_from_attribute(
         attribute_to_convert_tuple: tuple,
         direction: EaAssociationDirectionTypes,
-        type_nf_uuid: str) \
+        type_nf_uuid: str,
+        attribute_name: str = DEFAULT_NULL_VALUE) \
         -> dict:
     association_nf_uuid = \
         create_new_uuid()
@@ -55,7 +56,7 @@ def create_association_from_attribute(
             NfEaComColumnTypes.CONNECTORS_DEST_CARDINALITY.column_name: association_client_cardinality,
             NfEaComColumnTypes.STEREOTYPEABLE_OBJECTS_EA_OBJECT_STEREOTYPES.column_name: [],
             NfEaComColumnTypes.REPOSITORIED_OBJECTS_EA_REPOSITORY.column_name: DEFAULT_NULL_VALUE,
-            NfEaComColumnTypes.EXPLICIT_OBJECTS_EA_OBJECT_NAME.column_name: DEFAULT_NULL_VALUE,
+            NfEaComColumnTypes.EXPLICIT_OBJECTS_EA_OBJECT_NAME.column_name: attribute_name,
             NfEaComColumnTypes.EXPLICIT_OBJECTS_EA_OBJECT_NOTES.column_name: DEFAULT_NULL_VALUE
         }
 

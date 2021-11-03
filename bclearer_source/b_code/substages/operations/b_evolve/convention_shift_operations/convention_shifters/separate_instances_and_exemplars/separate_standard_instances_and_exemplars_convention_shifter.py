@@ -1,5 +1,10 @@
+from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.common_knowledge.collection_types.nf_ea_com_collection_types import \
+    NfEaComCollectionTypes
+
 from bclearer_source.b_code.common_knowledge.bclearer_additional_column_types import BclearerAdditionalColumnTypes
 from bclearer_source.b_code.common_knowledge.bclearer_constants import NAME_EXEMPLAR_ATTRIBUTE_NAME
+from bclearer_source.b_code.common_knowledge.digitialisation_level_stereotype_matched_ea_objects import \
+    DigitalisationLevelStereotypeMatchedEaObjects
 from bclearer_source.b_code.substages.operations.b_evolve.common.new_root_package_creator import create_root_package
 from bclearer_source.b_code.substages.operations.b_evolve.convention_shift_operations.convention_shifters.separate_instances_and_exemplars.instances_and_exemplars_separator import separate_instances_and_exemplars
 from bclearer_source.b_code.substages.operations.common.new_ea_objects_dictionary_creator import create_new_ea_objects_dictionary
@@ -11,6 +16,9 @@ from nf_common_source.code.services.reporting_service.reporters.log_with_datetim
 from nf_ea_common_tools_source.b_code.nf_ea_common.common_knowledge.ea_connector_types import EaConnectorTypes
 from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.common_knowledge.column_types.nf_ea_com_column_types import NfEaComColumnTypes
 from nf_ea_common_tools_source.b_code.services.general.nf_ea.com.nf_ea_com_universes import NfEaComUniverses
+
+from bclearer_source.b_code.substages.operations.common.nf_uuid_from_ea_guid_from_collection_getter import \
+    get_nf_uuid_from_ea_guid_from_collection
 
 
 def shift_convention_separate_standard_instances_and_exemplars(
@@ -50,13 +58,20 @@ def __separate_instances_and_exemplars(
         __get_attributes_grouped_by_name_instance_type_dictionary(
             nf_ea_com_universe=nf_ea_com_universe)
 
+    digitalisation_level_stereotype_nf_uuid = \
+        get_nf_uuid_from_ea_guid_from_collection(
+            nf_ea_com_universe=nf_ea_com_universe,
+            collection_type=NfEaComCollectionTypes.EA_STEREOTYPES,
+            ea_guid=DigitalisationLevelStereotypeMatchedEaObjects.DIGITALISATION_LEVEL_1_CLASS_STEREOTYPE.ea_guid)
+
     for name_instance_type_nf_uuid, ea_attributes in attributes_grouped_by_name_instance_type_dictionary.items():
         separate_instances_and_exemplars(
             nf_ea_com_universe=nf_ea_com_universe,
             name_instance_type_nf_uuid=name_instance_type_nf_uuid,
             ea_attributes=ea_attributes,
             new_ea_objects_dictionary=new_ea_objects_dictionary,
-            package_nf_uuid=package_nf_uuid)
+            package_nf_uuid=package_nf_uuid,
+            digitalisation_level_stereotype_nf_uuid=digitalisation_level_stereotype_nf_uuid)
 
     update_nf_ea_com_universe_with_dictionary(
         nf_ea_com_universe=nf_ea_com_universe,
